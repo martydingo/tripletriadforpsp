@@ -4,6 +4,7 @@
 #include <stdio.h>
 //#include <string.h>
 #include "graphics.h"
+#define RGB(r, g, b) ((r)|((g)<<8)|((b)<<16)) 
 typedef char string;
 
 
@@ -25,26 +26,47 @@ struct playerTwoCards {
 
 
 
-
+string cardReturnImagePathP1( string cardNameFunction );
+string cardReturnImagePathP2( string cardNameFunction );
+void cardDrawSideMenuP1();
+void cardDrawSideMenuP2();
+void cardDrawImageP1Board( string cardNameFunction, int grid );
+void cardDrawImageP2Board( string cardNameFunction, int grid );
 int cardCheckTop( string cardNameFunction );
 int cardCheckRight( string cardNameFunction );
 int cardCheckBottom( string cardNameFunction );
 int cardCheckLeft( string cardNameFunction );
+string firstRandStart();
 void setPlayerOneCards( string player1chosencard1, string player1chosencard2, string player1chosencard3, string player1chosencard4, string player1chosencard5  );
 void setPlayerTwoCards( string player2chosencard1, string player2chosencard2, string player2chosencard3, string player2chosencard4, string player2chosencard5  );
-int randFirstStart( void );
 
-char cardName[6][20] = {"Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"};
+char cardName[5][20] = {"Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"};
 
 int triadGridX[10] = { 126, 202, 278, 126, 202, 278, 126, 202, 278 };
 int triadGridY[10] = { 13, 13, 13, 88, 88, 88, 163, 163, 163 };
 int triadSideCardGridX[6] = { 36, 64, 92, 120, 148 };
-int triadSideCardGridY = 198;
 
 void game(){
-	setPlayerOneCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra");
-	setPlayerTwoCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra");
+	string playerStarting;
+
+	resetScreen(); // have to clear the screen to display background etc.
+	setPlayerOneCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"); 
+	setPlayerTwoCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"); //set player's cards
+	playerStarting = firstRandStart(); //got who's starting first
 }
+
+void resetScreen(){
+	clearScreen(RGB(0,0,0));
+	char buffer[200];
+	Image* bg;
+	sprintf(buffer,"./images/backgrounddeck.png");
+	bg = loadImage(buffer);
+	blitAlphaImageToScreen(0,0,480,272,bg,0,0); 
+	flipScreen(); // printed background
+}
+
+void cardDrawSideMenuBack(){
+	string cardBuffer;
 
 string cardReturnImagePathP1( string cardNameFunction ){
 	string original = "./images/card/";
@@ -105,6 +127,20 @@ void cardDrawImageP1Board( string cardNameFunction, int grid ){
 	string original = "./images/card/";
 	strcat( original, cardNameFunction );
 	strcat( original, ".p1.png" );
+	Image* cardBuffer;
+	cardBuffer = loadImage(original);
+	int x;
+	int y;
+	x = triadGridX[grid];
+	y = triadGridY[grid];
+	blitAlphaImageToScreen(0,0,74,74,cardBuffer,x,y);
+	flipScreen();
+}
+
+void cardDrawImageP2Board( string cardNameFunction, int grid ){
+	string original = "./images/card/";
+	strcat( original, cardNameFunction );
+	strcat( original, ".p2.png" );
 	Image* cardBuffer;
 	cardBuffer = loadImage(original);
 	int x;
@@ -196,10 +232,16 @@ int cardLeft[6];
 	return cardLeftReturn;
 }
 
-int firstRandStart(){
+string firstRandStart(){
 int n;
+string playerStarting;
 n = rand() / ( 32767 / 2 + 1);
-return n;
+	if(n == 0){
+	playerStarting = "p1";
+	} else {
+	playerStarting = "p2";
+	}
+return playerStarting;
 }
 
 void setPlayerOneCards( string player1chosencard1, string player1chosencard2, string player1chosencard3, string player1chosencard4, string player1chosencard5  ){

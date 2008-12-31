@@ -54,7 +54,7 @@ int main(void){
     Color shadowColorD = RGB(55, 55, 55 ); 
 	char buffer[200];
 	Image* bg;
-	sprintf(buffer,"background.png");
+	sprintf(buffer,"./images/background.png");
 	bg = loadImage(buffer);
 	int x = 0;
 	int y = 0;
