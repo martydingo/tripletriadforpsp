@@ -25,7 +25,9 @@ struct playerTwoCards {
 };
 
 
-
+void resetScreen();
+void cardDrawSideMenuBackP1();
+void cardDrawSideMenuBackP2();
 string cardReturnImagePathP1( string cardNameFunction );
 string cardReturnImagePathP2( string cardNameFunction );
 void cardDrawSideMenuP1();
@@ -47,12 +49,20 @@ int triadGridY[10] = { 13, 13, 13, 88, 88, 88, 163, 163, 163 };
 int triadSideCardGridX[6] = { 36, 64, 92, 120, 148 };
 
 void game(){
-	string playerStarting;
+string playerStarting;
+playerStarting = firstRandStart();
 
 	resetScreen(); // have to clear the screen to display background etc.
 	setPlayerOneCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"); 
 	setPlayerTwoCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"); //set player's cards
-	playerStarting = firstRandStart(); //got who's starting first
+		
+	if(playerStarting == "p1"){
+	cardDrawSideMenuP1();
+	cardDrawSideMenuBackP2();
+	} else {
+	cardDrawSideMenuP2();
+	cardDrawSideMenuBackP1();
+	}
 }
 
 void resetScreen(){
@@ -64,9 +74,29 @@ void resetScreen(){
 	blitAlphaImageToScreen(0,0,480,272,bg,0,0); 
 	flipScreen(); // printed background
 }
-
-void cardDrawSideMenuBack(){
+void cardDrawSideMenuBackP1(){
 	string cardBuffer;
+	Image* cardBack;
+	sprintf(cardBuffer, "./images/cards/back.png");
+	cardBack = loadImage( cardBuffer );
+	blitAlphaImageToScreen(0,0,74,74,cardBack,triadSideCardGridX[1],0);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,triadSideCardGridX[2],0);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,triadSideCardGridX[3],0);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,triadSideCardGridX[4],0);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,triadSideCardGridX[5],0);
+}
+
+void cardDrawSideMenuBackP2(){
+	string cardBuffer;
+	Image* cardBack;
+	sprintf(cardBuffer, "./images/cards/back.png");
+	cardBack = loadImage( cardBuffer );
+	blitAlphaImageToScreen(0,0,74,74,cardBack,triadSideCardGridX[1],198);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,triadSideCardGridX[2],198);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,triadSideCardGridX[3],198);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,triadSideCardGridX[4],198);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,triadSideCardGridX[5],198);
+}
 
 string cardReturnImagePathP1( string cardNameFunction ){
 	string original = "./images/card/";
