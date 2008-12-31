@@ -2,6 +2,7 @@
 #include <pspdisplay.h>
 #include <pspctrl.h>
 #include <stdio.h>
+#include <stdlib.h>
 //#include <char.h>
 #include "graphics.h"
 #define RGB(r, g, b) ((r)|((g)<<8)|((b)<<16)) 
