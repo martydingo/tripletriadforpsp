@@ -44,6 +44,29 @@ void game(){
 
 }
 
+void cardDrawSideMenuP1(){
+	struct playerOneCards p1;
+	
+	setPlayerOneCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra");
+	setPlayerTwoCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra");
+	Image* playerOneCardOne;
+	playerOneCardOne = loadImage(cardReturnImagePathP1( p1.cardOne );
+	Image* playerOneCardTwo;
+	playerOneCardTwo = loadImage(cardReturnImagePathP1( p1.cardTwo );
+	Image* playerOneCardThree;
+	playerOneCardThree = loadImage(cardReturnImagePathP1( p1.cardThree );
+	Image* playerOneCardFour;
+	playerOneCardFour = loadImage(cardReturnImagePathP1( p1.cardFour );
+	Image* playerOneCardFive;
+	playerOneCardFive = loadImage(cardReturnImagePathP1( p1.cardFive );
+	blitAlphaImageToScreen(0,0,74,74,playerOneCardOne,triadSideCardP1GridX[1],0);
+	blitAlphaImageToScreen(0,0,74,74,playerOneCardTwo,triadSideCardP1GridX[2],0);
+	blitAlphaImageToScreen(0,0,74,74,playerOneCardThree,triadSideCardP1GridX[3],0);
+	blitAlphaImageToScreen(0,0,74,74,playerOneCardFour,triadSideCardP1GridX[4],0);
+	blitAlphaImageToScreen(0,0,74,74,playerOneCardFive,triadSideCardP1GridX[5],0);
+	flipScreen();
+}
+
 void cardDrawImageP1Board( string cardNameFunction, int grid ){
 	string original = "./images/card/";
 	strcat( original, cardNameFunction );
