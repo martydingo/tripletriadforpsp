@@ -49,12 +49,16 @@ int triadGridY[10] = { 13, 13, 13, 88, 88, 88, 163, 163, 163 };
 int triadSideCardGridY[6] = { 36, 64, 92, 120, 148 };
 
 void game(){
+struct playerOneCards p1;
+struct playerTwoCards p2;
 Image* activeCursor;
 SceCtrlData pad;
 char playerStarting;
 char cursorPathLeft = "./images/selector_left.png";
 char cursorPathRight = "./images/selector_right.png";
 char activeCursorPath;
+char playerOneChosenCards[5][20] = { p1.cardOne, p1.cardTwo, p1.cardThree, p1.cardFour, p1.cardFive };
+char playerTwoChosenCards[5][20] = { p2.cardOne, p2.cardTwo, p2.cardThree, p2.cardFour, p2.cardFive };
 int selMenuLeft = 0;
 int selMenuRight = 0;
 int sideDrawDoneLeft;
@@ -80,17 +84,14 @@ playerStarting = firstRandStart();
 		if(pad.Buttons & PSP_CTRL_UP){
 			if(selMenuLeft > 0){
 				selMenuLeft--;
-				resetScreen();
-				cardDrawSideMenuP1();
-				cardDrawSideMenuBackP2();
 				activeCursor = loadImage(activeCursorPath);
-				blitAlphaImageToScreen( 0, 0, 24, 15, activeCursor, 78, triadSideCardGridY[selMenu] 
+				blitAlphaImageToScreen( 0, 0, 24, 15, activeCursor, 78, triadSideCardGridY[selMenuLeft]); 
 			}
 		} else if(pad.Buttons & PSP_CTRL_DOWN){
 			if(selMenuLeft < 4){
 				selMenuLeft++;
 				activeCursor = loadImage( activeCursorPath );
-				blitAlphaImageToScreen( 0, 0, 24, 15, activeCursor, 78, triadSideCardGridY[selMenuLeft]
+				blitAlphaImageToScreen( 0, 0, 24, 15, activeCursor, 78, triadSideCardGridY[selMenuLeft]);
 				
 			}
 		}	
