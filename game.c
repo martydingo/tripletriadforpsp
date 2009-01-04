@@ -87,16 +87,17 @@ playerStarting = firstRandStart();
 			if(selMenuLeft > 0){
 				selMenuLeft--;
 				activeCursor = loadImage(activeCursorPath);
-				blitAlphaImageToScreen( 0, 0, 24, 15, activeCursor, 78, triadSideCardGridY[selMenuLeft]); 
+				blitAlphaImageToScreen( 0, 0, 24, 15, activeCursor, 78, triadSideCardGridY[selMenuLeft]);
+				flipScreen();
 			}
 		} else if(pad.Buttons & PSP_CTRL_DOWN){
 			if(selMenuLeft < 4){
 				selMenuLeft++;
 				activeCursor = loadImage( activeCursorPath );
 				blitAlphaImageToScreen( 0, 0, 24, 15, activeCursor, 78, triadSideCardGridY[selMenuLeft]);
-				
+				flipScreen();
 			}
-		}	
+		}
 
 
 	}
