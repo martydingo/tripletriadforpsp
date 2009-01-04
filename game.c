@@ -3,6 +3,7 @@
 #include <pspctrl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 //#include <char.h>
 #include "graphics.h"
 #define RGB(r, g, b) ((r)|((g)<<8)|((b)<<16)) 
@@ -10,38 +11,38 @@
 
 
 struct playerOneCards {
-	char cardOne;
-	char cardTwo;
-	char cardThree;
-	char cardFour;
-	char cardFive;
+	char *cardOne;
+	char *cardTwo;
+	char *cardThree;
+	char *cardFour;
+	char *cardFive;
 };
 
 struct playerTwoCards {
-	char cardOne;
-	char cardTwo;
-	char cardThree;
-	char cardFour;
-	char cardFive;
+	char *cardOne;
+	char *cardTwo;
+	char *cardThree;
+	char *cardFour;
+	char *cardFive;
 };
 
 
 void resetScreen();
 int cardDrawSideMenuBackP1();
 int cardDrawSideMenuBackP2();
-char cardReturnImagePathP1( char cardNameFunction );
-char cardReturnImagePathP2( char cardNameFunction );
+char *cardReturnImagePathP1( char *cardNameFunction );
+char *cardReturnImagePathP2( char *cardNameFunction );
 int cardDrawSideMenuP1();
 int cardDrawSideMenuP2();
-void cardDrawImageP1Board( char cardNameFunction, int grid );
-void cardDrawImageP2Board( char cardNameFunction, int grid );
-int cardCheckTop( char cardNameFunction );
-int cardCheckRight( char cardNameFunction );
-int cardCheckBottom( char cardNameFunction );
-int cardCheckLeft( char cardNameFunction );
-char firstRandStart();
-void setPlayerOneCards( char player1chosencard1, char player1chosencard2, char player1chosencard3, char player1chosencard4, char player1chosencard5  );
-void setPlayerTwoCards( char player2chosencard1, char player2chosencard2, char player2chosencard3, char player2chosencard4, char player2chosencard5  );
+void cardDrawImageP1Board( char *cardNameFunction, int grid );
+void cardDrawImageP2Board( char *cardNameFunction, int grid );
+int cardCheckTop( char *cardNameFunction );
+int cardCheckRight( char *cardNameFunction );
+int cardCheckBottom( char *cardNameFunction );
+int cardCheckLeft( char *cardNameFunction );
+char *firstRandStart();
+void setPlayerOneCards( char *player1chosencard1, char *player1chosencard2, char *player1chosencard3, char *player1chosencard4, char *player1chosencard5  );
+void setPlayerTwoCards( char *player2chosencard1, char *player2chosencard2, char *player2chosencard3, char *player2chosencard4, char *player2chosencard5  );
 
 char cardName[5][20] = {"Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"};
 
@@ -54,16 +55,16 @@ struct playerOneCards p1;
 struct playerTwoCards p2;
 Image* activeCursor;
 SceCtrlData pad;
-char playerStarting;
-char cursorPathLeft = "./images/selector_left.png";
-char cursorPathRight = "./images/selector_right.png";
-char activeCursorPath;
-char playerOneChosenCards[5][20] = { p1.cardOne, p1.cardTwo, p1.cardThree, p1.cardFour, p1.cardFive };
-char playerTwoChosenCards[5][20] = { p2.cardOne, p2.cardTwo, p2.cardThree, p2.cardFour, p2.cardFive };
+char *playerStarting;
+char *cursorPathLeft = "./images/selector_left.png";
+char *cursorPathRight = "./images/selector_right.png";
+char *activeCursorPath;
+char *playerOneChosenCards[5][20] = { {p1.cardOne}, {p1.cardTwo}, {p1.cardThree}, {p1.cardFour}, {p1.cardFive} };
+char *playerTwoChosenCards[5][20] = { {p2.cardOne}, {p2.cardTwo}, {p2.cardThree}, {p2.cardFour}, {p2.cardFive} };
 int selMenuLeft = 0;
 int selMenuRight = 0;
-int sideDrawDoneLeft;
-int sideDrawDoneRight;
+int sideDrawDoneLeft = 0;
+int sideDrawDoneRight = 0;
 
 playerStarting = firstRandStart();
 
@@ -80,7 +81,7 @@ playerStarting = firstRandStart();
 	sideDrawDoneRight = cardDrawSideMenuBackP1();
 	activeCursorPath = cursorPathRight;
 	}
-	while(sideDrawDoneLeft = 1){
+	while(sideDrawDoneLeft == 1){
 		sceCtrlReadBufferPositive(&pad, 1); 
 		if(pad.Buttons & PSP_CTRL_UP){
 			if(selMenuLeft > 0){
@@ -111,7 +112,7 @@ void resetScreen(){
 	flipScreen(); // printed background
 }
 int cardDrawSideMenuBackP1(){
-	char cardBuffer;
+	char cardBuffer[200];
 	Image* cardBack;
 	sprintf(cardBuffer, "./images/cards/back.png");
 	cardBack = loadImage( cardBuffer );
@@ -124,7 +125,7 @@ return 1;
 }
 
 int cardDrawSideMenuBackP2(){
-	char cardBuffer;
+	char cardBuffer[200];
 	Image* cardBack;
 	sprintf(cardBuffer, "./images/cards/back.png");
 	cardBack = loadImage( cardBuffer );
@@ -136,15 +137,15 @@ int cardDrawSideMenuBackP2(){
 return 1;
 }
 
-char cardReturnImagePathP1( char cardNameFunction ){
-	char original = "./images/card/";
+char *cardReturnImagePathP1( char *cardNameFunction ){
+	char *original = "./images/card/";
 	strcat( original, cardNameFunction );
 	strcat( original, ".p1.png" );
 	return original;
 }
 
-char cardReturnImagePathP2( char cardNameFunction ){
-	char original = "./images/card/";
+char *cardReturnImagePathP2( char *cardNameFunction ){
+	char *original = "./images/card/";
 	strcat( original, cardNameFunction );
 	strcat( original, ".p2.png" );
 	return original;
@@ -153,6 +154,12 @@ char cardReturnImagePathP2( char cardNameFunction ){
 
 int cardDrawSideMenuP1(){
 	struct playerOneCards p1;
+	p1.cardOne = "cardOne";
+	p1.cardTwo = "cardTwo";
+	p1.cardThree = "cardThree";
+	p1.cardFour = "cardFour";
+	p1.cardFive = "cardFive";
+
 	Image* playerOneCardOne;
 	playerOneCardOne = loadImage(cardReturnImagePathP1( p1.cardOne ));
 	Image* playerOneCardTwo;
@@ -174,6 +181,12 @@ int cardDrawSideMenuP1(){
 
 int cardDrawSideMenuP2(){
 	struct playerTwoCards p2;
+	p2.cardOne = "cardOne";
+	p2.cardTwo = "cardTwo";
+	p2.cardThree = "cardThree";
+	p2.cardFour = "cardFour";
+	p2.cardFive = "cardFive";
+
 	Image* playerTwoCardOne;
 	playerTwoCardOne = loadImage(cardReturnImagePathP2( p2.cardOne ));
 	Image* playerTwoCardTwo;
@@ -193,8 +206,8 @@ int cardDrawSideMenuP2(){
 	return 1;
 }
 
-void cardDrawImageP1Board( char cardNameFunction, int grid ){
-	char original = "./images/card/";
+void cardDrawImageP1Board( char *cardNameFunction, int grid ){
+	char *original = "./images/card/";
 	strcat( original, cardNameFunction );
 	strcat( original, ".p1.png" );
 	Image* cardBuffer;
@@ -207,8 +220,8 @@ void cardDrawImageP1Board( char cardNameFunction, int grid ){
 	flipScreen();
 }
 
-void cardDrawImageP2Board( char cardNameFunction, int grid ){
-	char original = "./images/card/";
+void cardDrawImageP2Board( char *cardNameFunction, int grid ){
+	char *original = "./images/card/";
 	strcat( original, cardNameFunction );
 	strcat( original, ".p2.png" );
 	Image* cardBuffer;
@@ -221,9 +234,9 @@ void cardDrawImageP2Board( char cardNameFunction, int grid ){
 	flipScreen();
 }
 
-int cardCheckTop( char cardNameFunction ){
+int cardCheckTop( char *cardNameFunction ){
 int ti;
-int cardTopReturn;
+int cardTopReturn = 0;
 
 int cardTop[6];
 	cardTop[1] = 1;
@@ -241,9 +254,9 @@ int cardTop[6];
 	return cardTopReturn;
 }
 
-int cardCheckRight( char cardNameFunction ){
+int cardCheckRight( char *cardNameFunction ){
 int ti;
-int cardRightReturn;
+int cardRightReturn = 0;
 
 int cardRight[6];
 	cardRight[1] = 1;
@@ -261,9 +274,9 @@ int cardRight[6];
 	return cardRightReturn;
 }
 
-int cardCheckBottom( char cardNameFunction ){
+int cardCheckBottom( char *cardNameFunction ){
 int ti;
-int cardBottomReturn;
+int cardBottomReturn = 0;
 
 int cardBottom[6];
 	cardBottom[1] = 1;
@@ -282,9 +295,9 @@ int cardBottom[6];
 }
 
 
-int cardCheckLeft( char cardNameFunction ){
+int cardCheckLeft( char *cardNameFunction ){
 int ti;
-int cardLeftReturn;
+int cardLeftReturn = 0;
 
 int cardLeft[6];
 	cardLeft[1] = 1;
@@ -302,9 +315,9 @@ int cardLeft[6];
 	return cardLeftReturn;
 }
 
-char firstRandStart(){
+char *firstRandStart(){
 int n;
-char playerStarting;
+char *playerStarting;
 n = rand() / ( 32767 / 2 + 1);
 	if(n == 0){
 	playerStarting = "p1";
@@ -314,7 +327,7 @@ n = rand() / ( 32767 / 2 + 1);
 return playerStarting;
 }
 
-void setPlayerOneCards( char player1chosencard1, char player1chosencard2, char player1chosencard3, char player1chosencard4, char player1chosencard5  ){
+void setPlayerOneCards( char *player1chosencard1, char *player1chosencard2, char *player1chosencard3, char *player1chosencard4, char *player1chosencard5  ){
 struct playerOneCards p1;
 p1.cardOne = player1chosencard1;
 p1.cardTwo = player1chosencard2;
@@ -324,7 +337,7 @@ p1.cardFive = player1chosencard5;
 
 }
 
-void setPlayerTwoCards( char player2chosencard1, char player2chosencard2, char player2chosencard3, char player2chosencard4, char player2chosencard5  ){
+void setPlayerTwoCards( char *player2chosencard1, char *player2chosencard2, char *player2chosencard3, char *player2chosencard4, char *player2chosencard5  ){
 struct playerTwoCards p2;
 p2.cardOne = player2chosencard1;
 p2.cardTwo = player2chosencard2;
