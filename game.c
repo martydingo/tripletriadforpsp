@@ -61,6 +61,7 @@ char *cursorPathRight = "./images/selector_right.png";
 char *activeCursorPath;
 char *playerOneChosenCards[5][20] = { {p1.cardOne}, {p1.cardTwo}, {p1.cardThree}, {p1.cardFour}, {p1.cardFive} };
 char *playerTwoChosenCards[5][20] = { {p2.cardOne}, {p2.cardTwo}, {p2.cardThree}, {p2.cardFour}, {p2.cardFive} };
+char *cardSelectedRight;
 int selMenuLeft = 0;
 int selMenuRight = 0;
 int sideDrawDoneLeft = 0;
@@ -97,9 +98,28 @@ playerStarting = firstRandStart();
 				blitAlphaImageToScreen( 0, 0, 24, 15, activeCursor, 78, triadSideCardGridY[selMenuLeft]);
 				flipScreen();
 			}
+				if(pad.Buttons & PSP_CTRL_CROSS){
+				switch(selMenuLeft){
+					case 0:
+						cardSelectedPlayerOne = p1.cardOne;
+						break;
+					case 1:
+						cardSelectedPlayerOne = p1.cardTwo;
+						break;
+					case 2:
+						cardSelectedPlayerOne = p1.cardThree;
+						break;
+					case 3:
+						cardSelectedPlayerOne = p1.cardFour;
+						break;
+					case 4:
+						cardSelectedPlayerOne = p1.cardFive;
+						break;
+					default:
+						break;
+				}
+			}
 		}
-
-
 	}
 }
 
