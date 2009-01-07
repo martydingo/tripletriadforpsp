@@ -2,12 +2,14 @@
 #include <pspdisplay.h>
 #include <pspctrl.h>
 #include <stdio.h>
+#include <pspdebug.h>  
 #include <stdlib.h>
 #include <string.h>
 //#include <char.h>
 #include "graphics.h"
 #define RGB(r, g, b) ((r)|((g)<<8)|((b)<<16)) 
 //typedef char char;
+#define printf pspDebugScreenPrintf 
 
 
 struct playerOneCards {
@@ -40,7 +42,7 @@ int cardCheckTop( char *cardNameFunction );
 int cardCheckRight( char *cardNameFunction );
 int cardCheckBottom( char *cardNameFunction );
 int cardCheckLeft( char *cardNameFunction );
-char *firstRandStart();
+int firstRandStart();
 void setPlayerOneCards( char *player1chosencard1, char *player1chosencard2, char *player1chosencard3, char *player1chosencard4, char *player1chosencard5  );
 void setPlayerTwoCards( char *player2chosencard1, char *player2chosencard2, char *player2chosencard3, char *player2chosencard4, char *player2chosencard5  );
 
@@ -55,7 +57,7 @@ struct playerOneCards p1;
 struct playerTwoCards p2;
 Image* activeCursor;
 SceCtrlData pad;
-char *playerStarting;
+int playerStarting;
 char *cursorPathLeft = "./images/selector_left.png";
 char *cursorPathRight = "./images/selector_right.png";
 char *activeCursorPath;
@@ -66,15 +68,14 @@ int selMenuLeft = 0;
 int selMenuRight = 0;
 int sideDrawDoneLeft = 0;
 int sideDrawDoneRight = 0;
-
+char *cardSelectedPlayerOne;
 playerStarting = firstRandStart();
-
 	resetScreen(); // have to clear the screen to display background etc.
+
 	setPlayerOneCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"); 
 	setPlayerTwoCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"); //set player's cards
-		
-	if(playerStarting == "p1"){
-	cardDrawSideMenuP1();
+	if(playerStarting == 0){
+	//cardDrawSideMenuP1();
 	sideDrawDoneLeft = cardDrawSideMenuBackP2();
 	activeCursorPath = cursorPathLeft;
 	} else {
@@ -89,14 +90,12 @@ playerStarting = firstRandStart();
 				selMenuLeft--;
 				activeCursor = loadImage(activeCursorPath);
 				blitAlphaImageToScreen( 0, 0, 24, 15, activeCursor, 78, triadSideCardGridY[selMenuLeft]);
-				flipScreen();
 			}
 		} else if(pad.Buttons & PSP_CTRL_DOWN){
 			if(selMenuLeft < 4){
 				selMenuLeft++;
 				activeCursor = loadImage( activeCursorPath );
 				blitAlphaImageToScreen( 0, 0, 24, 15, activeCursor, 78, triadSideCardGridY[selMenuLeft]);
-				flipScreen();
 			}
 				if(pad.Buttons & PSP_CTRL_CROSS){
 				switch(selMenuLeft){
@@ -120,6 +119,7 @@ playerStarting = firstRandStart();
 				}
 			}
 		}
+flipScreen();
 	}
 }
 
@@ -129,8 +129,7 @@ void resetScreen(){
 	Image* bg;
 	sprintf(buffer,"./images/backgrounddeck.png");
 	bg = loadImage(buffer);
-	blitAlphaImageToScreen(0,0,480,272,bg,0,0); 
-	flipScreen(); // printed background
+	blitAlphaImageToScreen(0,0,480,272,bg,0,0);  // printed background
 }
 int cardDrawSideMenuBackP1(){
 	char cardBuffer[200];
@@ -150,11 +149,11 @@ int cardDrawSideMenuBackP2(){
 	Image* cardBack;
 	sprintf(cardBuffer, "./images/cards/back.png");
 	cardBack = loadImage( cardBuffer );
-	blitAlphaImageToScreen(0,0,74,74,cardBack,198,triadSideCardGridY[1]);
-	blitAlphaImageToScreen(0,0,74,74,cardBack,198,triadSideCardGridY[2]);
-	blitAlphaImageToScreen(0,0,74,74,cardBack,198,triadSideCardGridY[3]);
-	blitAlphaImageToScreen(0,0,74,74,cardBack,198,triadSideCardGridY[4]);
-	blitAlphaImageToScreen(0,0,74,74,cardBack,198,triadSideCardGridY[5]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[1]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[2]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[3]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[4]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[5]);
 return 1;
 }
 
@@ -183,20 +182,19 @@ int cardDrawSideMenuP1(){
 
 	Image* playerOneCardOne;
 	playerOneCardOne = loadImage(cardReturnImagePathP1( p1.cardOne ));
+	blitAlphaImageToScreen(0,0,74,74,playerOneCardOne,0,triadSideCardGridY[1]);
 	Image* playerOneCardTwo;
 	playerOneCardTwo = loadImage(cardReturnImagePathP1( p1.cardTwo ));
+	blitAlphaImageToScreen(0,0,74,74,playerOneCardTwo,0,triadSideCardGridY[2]);
 	Image* playerOneCardThree;
 	playerOneCardThree = loadImage(cardReturnImagePathP1( p1.cardThree ));
+	blitAlphaImageToScreen(0,0,74,74,playerOneCardThree,0,triadSideCardGridY[3]);
 	Image* playerOneCardFour;
 	playerOneCardFour = loadImage(cardReturnImagePathP1( p1.cardFour ));
+	blitAlphaImageToScreen(0,0,74,74,playerOneCardFour,0,triadSideCardGridY[4]);
 	Image* playerOneCardFive;
 	playerOneCardFive = loadImage(cardReturnImagePathP1( p1.cardFive ));
-	blitAlphaImageToScreen(0,0,74,74,playerOneCardOne,0,triadSideCardGridY[1]);
-	blitAlphaImageToScreen(0,0,74,74,playerOneCardTwo,0,triadSideCardGridY[2]);
-	blitAlphaImageToScreen(0,0,74,74,playerOneCardThree,0,triadSideCardGridY[3]);
-	blitAlphaImageToScreen(0,0,74,74,playerOneCardFour,0,triadSideCardGridY[4]);
 	blitAlphaImageToScreen(0,0,74,74,playerOneCardFive,0,triadSideCardGridY[5]);
-	flipScreen();
 	return 1;
 }
 
@@ -207,6 +205,7 @@ int cardDrawSideMenuP2(){
 	p2.cardThree = "cardThree";
 	p2.cardFour = "cardFour";
 	p2.cardFive = "cardFive";
+
 
 	Image* playerTwoCardOne;
 	playerTwoCardOne = loadImage(cardReturnImagePathP2( p2.cardOne ));
@@ -223,7 +222,6 @@ int cardDrawSideMenuP2(){
 	blitAlphaImageToScreen(0,0,74,74,playerTwoCardThree,198,triadSideCardGridY[3]);
 	blitAlphaImageToScreen(0,0,74,74,playerTwoCardFour,198,triadSideCardGridY[4]);
 	blitAlphaImageToScreen(0,0,74,74,playerTwoCardFive,198,triadSideCardGridY[5]);
-	flipScreen();
 	return 1;
 }
 
@@ -336,16 +334,11 @@ int cardLeft[6];
 	return cardLeftReturn;
 }
 
-char *firstRandStart(){
+int firstRandStart(){
 int n;
-char *playerStarting;
 n = rand() / ( 32767 / 2 + 1);
-	if(n == 0){
-	playerStarting = "p1";
-	} else {
-	playerStarting = "p2";
-	}
-return playerStarting;
+n=0;
+return n;
 }
 
 void setPlayerOneCards( char *player1chosencard1, char *player1chosencard2, char *player1chosencard3, char *player1chosencard4, char *player1chosencard5  ){

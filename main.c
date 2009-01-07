@@ -7,7 +7,7 @@
 #include "graphics.h"
 #include "game.h"
 
-PSP_MODULE_INFO("Background Changer", 0, 1, 1);
+PSP_MODULE_INFO("Triple Triad", 0, 1, 1);
 
 #define RGB(r, g, b) ((r)|((g)<<8)|((b)<<16)) 
 int * selItem;
