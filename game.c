@@ -76,7 +76,7 @@ playerStarting = firstRandStart();
 	setPlayerOneCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"); 
 	setPlayerTwoCards( "Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"); //set player's cards
 	if(playerStarting == 0){
-	//cardDrawSideMenuP1();
+	cardDrawSideMenuP1();
 	sideDrawDoneLeft = cardDrawSideMenuBackP2();
 	activeCursorPath = cursorPathLeft;
 	} else {
@@ -461,43 +461,53 @@ return 1;
 }
 
 void cardDrawImageP1Board( char *cardNameFunction, int grid ){
-	char *original = "./images/card/";
-	strcat( original, cardNameFunction );
-	strcat( original, ".p1.png" );
-	Image* cardBuffer;
-	cardBuffer = loadImage(original);
-	int x;
-	int y;
+char * path = "Default";
+char cardPathBuffer[40];
+Image* cardBuffer;
+int i = 0;
+	for( i = 0; i<5; i++ ){
+		if(strcmp(cardNameFunction, cardName[i])==0){
+			path = cardPathP1[i];
+			sprintf( cardPathBuffer, path );
+		}
+	}
+	int x=0;
+	int y=0;
 	x = triadGridX[grid];
 	y = triadGridY[grid];
+	cardBuffer = loadImage( cardPathBuffer );
 	blitAlphaImageToScreen(0,0,74,74,cardBuffer,x,y);
-	flipScreen();
 }
 
 void cardDrawImageP2Board( char *cardNameFunction, int grid ){
-	char *original = "./images/card/";
-	strcat( original, cardNameFunction );
-	strcat( original, ".p2.png" );
-	Image* cardBuffer;
-	cardBuffer = loadImage(original);
-	int x;
-	int y;
+char * path = "Default";
+char cardPathBuffer[40];
+Image* cardBuffer;
+int i = 0;
+	for( i = 0; i<5; i++ ){
+		if(strcmp(cardNameFunction, cardName[i])==0){
+			path = cardPathP2[i];
+			sprintf( cardPathBuffer, path );
+		}
+	}
+	int x=0;
+	int y=0;
 	x = triadGridX[grid];
 	y = triadGridY[grid];
+	cardBuffer = loadImage( cardPathBuffer );
 	blitAlphaImageToScreen(0,0,74,74,cardBuffer,x,y);
-	flipScreen();
 }
 
 int cardCheckTop( char *cardNameFunction ){
 int ti;
 int cardTopReturn = 0;
 
-int cardTop[6];
-	cardTop[1] = 1;
-	cardTop[2] = 5;
-	cardTop[3] = 1;
-	cardTop[4] = 6;
-	cardTop[5] = 2;
+int cardTop[5];
+	cardTop[0] = 1;
+	cardTop[1] = 5;
+	cardTop[2] = 1;
+	cardTop[3] = 6;
+	cardTop[4] = 2;
 
 	for( ti = 0; ti < 6; ti++){
 		if(cardName[ti] == cardNameFunction){
@@ -532,12 +542,12 @@ int cardCheckBottom( char *cardNameFunction ){
 int ti;
 int cardBottomReturn = 0;
 
-int cardBottom[6];
-	cardBottom[1] = 1;
-	cardBottom[2] = 5;
-	cardBottom[3] = 1;
-	cardBottom[4] = 6;
-	cardBottom[5] = 2;
+int cardBottom[5];
+	cardBottom[0] = 1;
+	cardBottom[1] = 5;
+	cardBottom[2] = 1;
+	cardBottom[3] = 6;
+	cardBottom[4] = 2;
 
 	for( ti = 0; ti < 6; ti++){
 		if(cardName[ti] == cardNameFunction){
@@ -553,12 +563,12 @@ int cardCheckLeft( char *cardNameFunction ){
 int ti;
 int cardLeftReturn = 0;
 
-int cardLeft[6];
-	cardLeft[1] = 1;
-	cardLeft[2] = 5;
-	cardLeft[3] = 1;
-	cardLeft[4] = 6;
-	cardLeft[5] = 2;
+int cardLeft[5];
+	cardLeft[0] = 1;
+	cardLeft[1] = 5;
+	cardLeft[2] = 1;
+	cardLeft[3] = 6;
+	cardLeft[4] = 2;
 
 	for( ti = 0; ti < 6; ti++){
 		if(cardName[ti] == cardNameFunction){
