@@ -29,8 +29,6 @@ static char *playerTwoCardFive;
 void resetScreen();
 int cardDrawSideMenuBackP1();
 int cardDrawSideMenuBackP2();
-char *cardReturnImagePathP1( char *cardNameFunction );
-char *cardReturnImagePathP2( char *cardNameFunction );
 int cardDrawSideMenuP1();
 int cardDrawSideMenuP2();
 void cardDrawImageP1Board( char *cardNameFunction, int grid );
@@ -45,10 +43,12 @@ void setPlayerTwoCards( char *player2chosencard1, char *player2chosencard2, char
 
 
 char cardName[5][20] = {"Geezard", "Funguar", "Bite Bug", "Red Bat", "Blobra"};
+char cardPathP1[5][40] = {"./images/card/Geezard.p1.png", "./images/card/Funguar.p1.png", "./images/card/Bite Bug.p1.png", "./images/card/Red Bat.p1.png", "Blobra.p1.png"};
+char cardPathP2[5][40] = {"./images/card/Geezard.p2.png", "./images/card/Funguar.p2.png", "./images/card/Bite Bug.p2.png", "./images/card/Red Bat.p2.png", "Blobra.p2.png"};
 
 int triadGridX[10] = { 126, 202, 278, 126, 202, 278, 126, 202, 278 };
 int triadGridY[10] = { 13, 13, 13, 88, 88, 88, 163, 163, 163 };
-int triadSideCardGridY[6] = { 36, 64, 92, 120, 148 };
+int triadSideCardGridY[5] = { 36, 64, 92, 120, 148 };
 
 void game(){
 SceCtrlData pad;
@@ -167,8 +167,8 @@ playerStarting = firstRandStart();
 						break;
 				}
 
-			}
-		} else if(pad.Buttons & PSP_CTRL_DOWN){
+			}	flipScreen();
+		}  else if(pad.Buttons & PSP_CTRL_DOWN){
 			if(selMenuLeft < 4){
 				selMenuLeft++;
 				switch(selMenuLeft){
@@ -265,9 +265,8 @@ playerStarting = firstRandStart();
 						break;
 				}
 			}
-		}
-	}
-flipScreen();
+		} 
+	} flipScreen();
 	}
 }
 
@@ -284,11 +283,11 @@ int cardDrawSideMenuBackP1(){
 	Image* cardBack;
 	sprintf(cardBuffer, "./images/cards/back.png");
 	cardBack = loadImage( cardBuffer );
-	blitAlphaImageToScreen(0,0,74,74,cardBack,0,triadSideCardGridY[4]);
-	blitAlphaImageToScreen(0,0,74,74,cardBack,0,triadSideCardGridY[3]);
-	blitAlphaImageToScreen(0,0,74,74,cardBack,0,triadSideCardGridY[2]);
-	blitAlphaImageToScreen(0,0,74,74,cardBack,0,triadSideCardGridY[1]);
 	blitAlphaImageToScreen(0,0,74,74,cardBack,0,triadSideCardGridY[0]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,0,triadSideCardGridY[1]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,0,triadSideCardGridY[2]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,0,triadSideCardGridY[3]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,0,triadSideCardGridY[4]);
 return 1;
 }
 
@@ -297,76 +296,168 @@ int cardDrawSideMenuBackP2(){
 	Image* cardBack;
 	sprintf(cardBuffer, "./images/cards/back.png");
 	cardBack = loadImage( cardBuffer );
-	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[4]);
-	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[3]);
-	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[2]);
-	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[1]);
 	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[0]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[1]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[2]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[3]);
+	blitAlphaImageToScreen(0,0,74,74,cardBack,406,triadSideCardGridY[4]);
 return 1;
 }
 
-char *cardReturnImagePathP1( char *cardNameFunction ){
-	char original[200] = "./images/card/";
-	strcat( original, *cardNameFunction );
-	strcat( original, ".p1.png" );
-	return *original;
-}
-
-char *cardReturnImagePathP2( char *cardNameFunction ){
-	char original[200] = "./images/card/";
-	strcat( original, *cardNameFunction );
-	strcat( original, ".p2.png" );
-	return *original;
-}
-
-
 int cardDrawSideMenuP1(){
+//String Compare and Draw for Card One Start.
+char * Path = "Default";
+int i = 0; 
+char cardOnePathP1[40];
+Image* playerOneCardOneDraw;
+	for( i = 0; i<5; i++ ){
+		if(strcmp(playerOneCardOne, cardName[i])==0){
+			Path = cardPathP1[i];
+			sprintf( cardOnePathP1, Path );
+		}
+	}
+playerOneCardOneDraw = loadImage( cardOnePathP1 );
+blitAlphaImageToScreen(0,0,74,74,playerOneCardOneDraw,0,triadSideCardGridY[0]);
+// End String Compare and Draw for Card One.	
 	
-	char cardBufferCardOne[200];
-	char cardBufferCardTwo[200];
-	char cardBufferCardThree[200];
-	char cardBufferCardFour[200];
-	char cardBufferCardFive[200];
-	
-	Image* playerOneCardOneDraw;
-	Image* playerOneCardTwoDraw;
-	Image* playerOneCardThreeDraw;
-	Image* playerOneCardFourDraw;
-	Image* playerOneCardFiveDraw;
+// String Compare and Draw for Card Two Start.
+i = 0;
+Path = "Default";
+char cardTwoPathP1[40];
+Image* playerOneCardTwoDraw;
+	for( i=0; i<5; i++ ){
+		if(strcmp(playerOneCardTwo, cardName[i])==0){
+			Path = cardPathP1[i];
+			sprintf( cardTwoPathP1, Path );
+		}
+	}
+playerOneCardTwoDraw = loadImage( cardTwoPathP1 );
+blitAlphaImageToScreen(0,0,74,74,playerOneCardTwoDraw,0,triadSideCardGridY[1]);
+// End String Compare and Draw for Card Two.
 
-	sprintf(cardBufferCardOne, cardReturnImagePathP1( playerOneCardOne ));
-	sprintf(cardBufferCardTwo, cardReturnImagePathP1( playerOneCardTwo ));
-	sprintf(cardBufferCardThree, cardReturnImagePathP1( playerOneCardThree ));
-	sprintf(cardBufferCardFour, cardReturnImagePathP1( playerOneCardFour ));
-	sprintf(cardBufferCardFive, cardReturnImagePathP1( playerOneCardFive ));
+// String Compare and Draw for Card Three Start.
+i = 0;
+Path = "Default"; //Reminder: Set Default to Geezard Path
+char cardThreePathP1[40];
+Image* playerOneCardThreeDraw;
+	for( i=0; i<5; i++){
+		if(strcmp(playerOneCardThree,cardName[i])==0){
+			Path = cardPathP1[i];
+			sprintf( cardThreePathP1, Path );
+		}
+	}
+playerOneCardThreeDraw = loadImage( cardThreePathP1 );
+blitAlphaImageToScreen(0,0,74,74,playerOneCardThreeDraw,0,triadSideCardGridY[2]);
+// End String Compare and Draw for Card Three.
 
-	playerOneCardOneDraw = loadImage( cardBufferCardOne );
-	blitAlphaImageToScreen(0,0,74,74,playerOneCardOneDraw,0,triadSideCardGridY[0]);
-	
-	playerOneCardTwoDraw = loadImage( cardBufferCardTwo );
-	blitAlphaImageToScreen(0,0,74,74,playerOneCardTwoDraw,0,triadSideCardGridY[1]);
+// String Compare and Draw for Card Four Start.
+i = 0;
+Path = "Default"; //Reminder: Set Default to Geezard Path
+char cardFourPathP1[40];
+Image* playerOneCardFourDraw;
+	for( i=0; i<5; i++){
+		if(strcmp(playerOneCardFour,cardName[i])==0){
+			Path = cardPathP1[i];
+			sprintf( cardFourPathP1, Path );
+		}
+	}
+playerOneCardFourDraw = loadImage( cardFourPathP1 );
+blitAlphaImageToScreen(0,0,74,74,playerOneCardFourDraw,0,triadSideCardGridY[3]);
+// End String Compare and Draw for Card Four.
 
-	playerOneCardThreeDraw = loadImage( cardBufferCardThree );
-	blitAlphaImageToScreen(0,0,74,74,playerOneCardThreeDraw,0,triadSideCardGridY[2]);
-	
-	playerOneCardFourDraw = loadImage( cardBufferCardFour );
-	blitAlphaImageToScreen(0,0,74,74,playerOneCardFourDraw,0,triadSideCardGridY[3]);
-	
-	playerOneCardFiveDraw = loadImage( cardBufferCardFive );
-	blitAlphaImageToScreen(0,0,74,74,playerOneCardFiveDraw,0,triadSideCardGridY[4]);
-	return 1;
+// String Compare and Draw for Card Five Start.
+i = 0;
+Path = "Default"; //Reminder: Set Default to Geezard Path
+char cardFivePathP1[40];
+Image* playerOneCardFiveDraw;
+	for( i=0; i<5; i++){
+		if(strcmp(playerOneCardFive,cardName[i])==0){
+			Path = cardPathP1[i];
+			sprintf( cardFivePathP1, Path );
+		}
+	}
+playerOneCardFiveDraw = loadImage( cardFivePathP1 );
+blitAlphaImageToScreen(0,0,74,74,playerOneCardFiveDraw,0,triadSideCardGridY[4]);
+// End String Compare and Draw for Card Five.
+return 1;	
 }
 
 int cardDrawSideMenuP2(){
+//String Compare and Draw for Card One Start.
+char * Path = "Default";
+int i = 0; 
+char cardOnePathP2[40];
+Image* playerTwoCardOneDraw;
+	for( i = 0; i<5; i++ ){
+		if(strcmp(playerTwoCardOne, cardName[i])==0){
+			Path = cardPathP2[i];
+			sprintf( cardOnePathP2, Path );
+		}
+	}
+playerTwoCardOneDraw = loadImage( cardOnePathP2 );
+blitAlphaImageToScreen(0,0,74,74,playerTwoCardOneDraw,0,triadSideCardGridY[0]);
+// End String Compare and Draw for Card One.	
+	
+// String Compare and Draw for Card Two Start.
+i = 0;
+Path = "Default";
+char cardTwoPathP2[40];
+Image* playerTwoCardTwoDraw;
+	for( i=0; i<5; i++ ){
+		if(strcmp(playerTwoCardTwo, cardName[i])==0){
+			Path = cardPathP2[i];
+			sprintf( cardTwoPathP2, Path );
+		}
+	}
+playerTwoCardTwoDraw = loadImage( cardTwoPathP2 );
+blitAlphaImageToScreen(0,0,74,74,playerTwoCardTwoDraw,0,triadSideCardGridY[1]);
+// End String Compare and Draw for Card Two.
 
-/*
-	blitAlphaImageToScreen(0,0,74,74,playerTwoCardOne,198,triadSideCardGridY[0]);
-	blitAlphaImageToScreen(0,0,74,74,playerTwoCardTwo,198,triadSideCardGridY[1]);
-	blitAlphaImageToScreen(0,0,74,74,playerTwoCardThree,198,triadSideCardGridY[2]);
-	blitAlphaImageToScreen(0,0,74,74,playerTwoCardFour,198,triadSideCardGridY[3]);
-	blitAlphaImageToScreen(0,0,74,74,playerTwoCardFive,198,triadSideCardGridY[4]);
-*/
-	return 1;
+// String Compare and Draw for Card Three Start.
+i = 0;
+Path = "Default"; //Reminder: Set Default to Geezard Path
+char cardThreePathP2[40];
+Image* playerTwoCardThreeDraw;
+	for( i=0; i<5; i++){
+		if(strcmp(playerTwoCardThree,cardName[i])==0){
+			Path = cardPathP2[i];
+			sprintf( cardThreePathP2, Path );
+		}
+	}
+playerTwoCardThreeDraw = loadImage( cardThreePathP2 );
+blitAlphaImageToScreen(0,0,74,74,playerTwoCardThreeDraw,0,triadSideCardGridY[2]);
+// End String Compare and Draw for Card Three.
+
+// String Compare and Draw for Card Four Start.
+i = 0;
+Path = "Default"; //Reminder: Set Default to Geezard Path
+char cardFourPathP2[40];
+Image* playerTwoCardFourDraw;
+	for( i=0; i<5; i++){
+		if(strcmp(playerTwoCardFour,cardName[i])==0){
+			Path = cardPathP2[i];
+			sprintf( cardFourPathP2, Path );
+		}
+	}
+playerTwoCardFourDraw = loadImage( cardFourPathP2 );
+blitAlphaImageToScreen(0,0,74,74,playerTwoCardFourDraw,0,triadSideCardGridY[3]);
+// End String Compare and Draw for Card Four.
+
+// String Compare and Draw for Card Five Start.
+i = 0;
+Path = "Default"; //Reminder: Set Default to Geezard Path
+char cardFivePathP2[40];
+Image* playerTwoCardFiveDraw;
+	for( i=0; i<5; i++){
+		if(strcmp(playerTwoCardFive,cardName[i])==0){
+			Path = cardPathP2[i];
+			sprintf( cardFivePathP2, Path );
+		}
+	}
+playerTwoCardFiveDraw = loadImage( cardFivePathP2 );
+blitAlphaImageToScreen(0,0,74,74,playerTwoCardFiveDraw,0,triadSideCardGridY[4]);
+// End String Compare and Draw for Card Five.
+return 1;
 }
 
 void cardDrawImageP1Board( char *cardNameFunction, int grid ){
